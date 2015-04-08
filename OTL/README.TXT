@@ -10,7 +10,7 @@ If you wish to play against the 'IA' input the init sequence:
     "H" then "B" to play as the BLACK player.
     "B" then "H" to play as the WHITE player.
 
-If you whish to use the GUI and not the console mode:
+If you wish to use the GUI and not the console mode:
     Type ./gui.tcl
 
    For a desciption of the sources layout jump to the end of this document.
