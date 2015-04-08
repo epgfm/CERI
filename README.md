@@ -1,2 +1,2 @@
 # CERI
-Miscelaneous codes written while studying @ CERI
+Miscelaneous codes I wrote while studying @ CERI
