@@ -1,0 +1,96 @@
+                           [Programme de Jeu Othello]
+*******************************************************************************
+
+Pour compiler et exécuter :
+    * Changer le répertoire courant pour le répertoire du Makefile.
+    * Taper "make"
+    * Taper "./main"
+
+Pour jouer contre l'"IA" entrez la séquence :
+    "H" puis "B" pour jouer en tant que joueur NOIR.
+    "B" puis "H" pour jouer en tant que joueur BLANC.
+
+Pour utiliser l'interface graphique :
+    Taper ./gui.tcl
+
+    Description de la répartition des sources : Voir à la fin de ce fichier.
+*******************************************************************************
+
+Mon objectif principal était de réduire au maximum le nombre de parcours de
+l'environnement de jeu nécéssaires à chaque niveau.
+
+Le programme est dôté d'une "AI" utilisant l'algorithme alpha-beta pruning
+version "fail-hard" amélioré par un ordonancement des coups pour déterminer
+la valeur minimax attribuée à chaque coup possible à un moment du jeu.
+
+Le programme est divisé en modules groupant routines et fonctions ayant des 
+buts similaires.
+
+Chaque fichier source commence par un résumé des méthodes implémentées.
+
+Le principal élément du concept utilisé est le module stats ainsi que la
+structure associée "PlayerStats"
+
+Comme je voulais pouvoir réaliser la récupération de toutes les informations
+nécéssaires en un seul parcours de la grille j'avais besoin d'une structure
+pour stocker toutes ces informations et les réutiliser par la suite.
+La structure PlayerStats stocke les informations suivantes sur un joueur :
+
+    * Son identifiant.
+    * Le nombre de disques qu'il possède.
+    * Le nombre de coins qu'il a conquis.
+    * Le nombre de coups qu'il peut jouer.
+    * Chacun de ces coups stockés dans une structure de type LIFO
+
+Attaché à cette structure sont implémentées les méthodes classiques pour
+push/pop la pile.
+
+Trois majeures méthodes travaillent sur cette structure :
+
+ - La fonction getGameState se charge du parcours de la grille et du stockage
+des informations dans les deux structures passées par références.
+Accessoirement, elle renvoie un booléen disant si le jeu est terminé.
+
+ - La fonction d'évaluation, au coeur du module ia analyze les informations
+contenues dans les deux structures passées en paramètres et renvoie comme 
+résultat une note pour l'état du jeu qu'elles décrivent.
+
+ - La routine orderStack réorganise la pile d'une structure pour que les coups
+les plus avantageux soient les premiers à sortir.
+
+
+                                   [MODULES]
+*******************************************************************************
+
+othello.cpp : othello.h
+
+    Implémentation de tout ce qui est spécifique au jeu othello.
+        * Contructeurs et Destructeur.
+        * Affichage de l'environnement.
+        * Légalité ou non d'un coup.
+        * Fonctionnalité pour jouer un coup.
+
+stats.cpp : stats.h othello.h
+
+    * Implémentation de la structure PlayerStats et des méthodes associées.
+    * Implémentation des méthodes de la classe othello manipulant cette 
+        structure.
+
+ia.cpp : othello.h
+
+    Implémentation des méthodes en rapport avec l'IA.
+        * Fonction d'évaluation.
+        * Fonction de décision minimax.
+        * Fonction de sélection d'un coup (Appel racine de Minimax)
+
+
+player.cpp : player.h misc.h
+
+    Implémentation de la classe player : Gestion des trois types de joueurs.
+        * Humain (Genre : Derrière le clavier)
+        * RoBoT (L'IA, en gros.)
+        * Remove (Genre un humain ou une IA, mais connecté via socket.)
+
+misc.cpp : misc.h
+
+    Trucs divers utilisés dans player.cpp
