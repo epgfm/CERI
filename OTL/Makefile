@@ -11,7 +11,6 @@ HEADERS = $(I)/othello.h $(I)/stats.h $(I)/player.h $(I)/misc.h \
 		  $(I)/client-jeu.h
 
 all : main
-	mkdir -p obj
 
 main : main.cpp $(OBJECTS) $(HEADERS)
 	$(C) $< $(OBJECTS) -o $@
