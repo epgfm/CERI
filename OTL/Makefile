@@ -16,6 +16,7 @@ main : main.cpp $(OBJECTS) $(HEADERS)
 	$(C) $< $(OBJECTS) -o $@
 
 $(O)/%.o : $(S)/%.cpp $(HEADERS)
+	mkdir -p obj
 	$(C) -c $< -o $@
 
 clean :
